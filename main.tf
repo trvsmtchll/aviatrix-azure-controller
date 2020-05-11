@@ -12,7 +12,7 @@ resource "azurerm_public_ip" "example" {
   name                    = "avx-controller-public-ip"
   location                = azurerm_resource_group.main.location
   resource_group_name     = azurerm_resource_group.main.name
-  allocation_method       = "Dynamic"
+  allocation_method       = "Static"
   idle_timeout_in_minutes = 30
 
   tags = {
@@ -31,6 +31,13 @@ resource "azurerm_network_interface" "example" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.example.id
   }
+}
+
+# 5/11/2020 Added marketplace agreement - Comment the next 5 lines if this NOT your first Aviatrix deployment i.e. never launched Aviatrix in Azure before
+resource "azurerm_marketplace_agreement" "aviatrix" {
+  publisher = "aviatrix-systems"
+  offer     = "aviatrix-bundle-payg"
+  plan      = "aviatrix-enterprise-bundle-byol"
 }
 
 resource "azurerm_virtual_machine" "test" {
@@ -114,6 +121,14 @@ module "network-security-group" {
 data "azurerm_public_ip" "example" {
   name                = azurerm_public_ip.example.name
   resource_group_name = azurerm_virtual_machine.test.resource_group_name
+}
+
+output "license_text_link" {
+  value = azurerm_marketplace_agreement.aviatrix.license_text_link
+}
+
+output "privacy_policy_link" {
+  value = azurerm_marketplace_agreement.aviatrix.privacy_policy_link
 }
 
 output "public_ip_address" {

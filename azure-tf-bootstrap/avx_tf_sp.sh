@@ -7,7 +7,7 @@
 # This script was designed for mac
 #
 #############################################################################################################################
-export DATE=`date '+%Y%m%d'`
+export DATE=`date '+%Y%m%d%hh%s'`
 export LOG_DIR=$HOME/avx-azure-arm
 mkdir -p ${LOG_DIR}
 
@@ -37,8 +37,8 @@ echo "##########################################################################
 echo "Setting up Azure Aviatrix TF Service Princpal with Contributor role"
 echo "###################################################################################"
 
-#read -p "Enter Aviatrix TF Service Princpal Name (This is a user friendly name for you): "  appname
-appname="avx_bootstrap_tf_sp2"
+read -p "Enter Aviatrix TF Service Princpal Name (This is a user friendly name for you): "  appname
+#appname="avx_bootstrap_tf_sp5" # pass in as a variable if you want
 echo "Aviatrix Azure Terraform SP is $appname"
 echo "This can be found in Azure Portal - Home > Your Subscription > Access control (IAM) > Check Access > $appname"
 
@@ -57,10 +57,10 @@ ARM_SUBSCRIPTION_ID=$SUB_ID
 ARM_TENANT_ID=`cat avx_tf_sp_$DATE.json | jq -r '.tenant'`
 
 ## Test the SP login
-az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+#az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
 
 ## Write a test_sp_conn file out - 
-az vm list-sizes --location westus > test_sp_conn_$DATE.txt
+#az vm list-sizes --location westus > test_sp_conn_$DATE.txt
 
 echo "###################################################################################"
 echo "Creating bootstrap avx_tf_sp.env file KEEP THIS FILE AND avx_tf_sp_$DATE.json SAFE!!!!"
