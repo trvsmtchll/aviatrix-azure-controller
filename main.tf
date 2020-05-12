@@ -33,12 +33,12 @@ resource "azurerm_network_interface" "example" {
   }
 }
 
-# 5/11/2020 Added marketplace agreement - Comment the next 5 lines if this NOT your first Aviatrix deployment i.e. never launched Aviatrix in Azure before
-resource "azurerm_marketplace_agreement" "aviatrix" {
-  publisher = "aviatrix-systems"
-  offer     = "aviatrix-bundle-payg"
-  plan      = "aviatrix-enterprise-bundle-byol"
+resource "null_resource" "accept_license" {
+   provisioner "local-exec" {
+       command = "python3 ./accept_license.py"
+   }
 }
+
 
 resource "azurerm_virtual_machine" "test" {
   name                  = "AviatrixController"
@@ -121,14 +121,6 @@ module "network-security-group" {
 data "azurerm_public_ip" "example" {
   name                = azurerm_public_ip.example.name
   resource_group_name = azurerm_virtual_machine.test.resource_group_name
-}
-
-output "license_text_link" {
-  value = azurerm_marketplace_agreement.aviatrix.license_text_link
-}
-
-output "privacy_policy_link" {
-  value = azurerm_marketplace_agreement.aviatrix.privacy_policy_link
 }
 
 output "public_ip_address" {

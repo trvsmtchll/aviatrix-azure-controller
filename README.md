@@ -1,29 +1,13 @@
 # Aviatrix Controller - Azure Terraform Build
 
-This example will provision an Aviatrix Controller in Azure with terraform.
-
-## Azure Marketplace Note
-
-The terraform code takes care of a **NEW** marketplace agreement it is assumed that the Aviatrix Controller is being deployed
-in a greenfield environment.
-
-If you have a pre-existing Marketplace agreement with Aviatrix you will want to **comment out** the ```resource "azurerm_marketplace_agreement"``` block
-and following outputs...
-
-```
-output "license_text_link" {
-  value = azurerm_marketplace_agreement.aviatrix.license_text_link
-}
-
-output "privacy_policy_link" {
-  value = azurerm_marketplace_agreement.aviatrix.privacy_policy_link
-}
-```
-
+This example will provision an Aviatrix Controller in Azure with terraform. Additionally it will check for and accept Azure Marketplace terms.
 
 ## Dependencies
 
 **_Recommended_** bootstrap your env with a service principal to run terraform using the script in azure-tf-bootstrap.
+
+You only need to bootstrap your environment once, the script was added for convenience users experienced with the Azure RM provider can ignore this step.
+
 
 ## Instructions
 
