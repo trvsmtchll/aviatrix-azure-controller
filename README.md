@@ -8,6 +8,9 @@ This example will provision an Aviatrix Controller in Azure with terraform. Addi
 
 You only need to bootstrap your environment once, the script was added for convenience users experienced with the Azure RM provider can ignore this step.
 
+* terraform .12
+* python 3
+* azure subsription
 
 ## Instructions
 
